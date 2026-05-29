@@ -12,10 +12,12 @@ export const Route = createFileRoute("/api/auth/google/callback")({
         const db = await getDb();
 
         const url = new URL(request.url);
+        const origin = process.env.BETTER_AUTH_URL ?? `${url.protocol}//${url.host}`;
         const code = url.searchParams.get("code");
         const state = url.searchParams.get("state");
         const errorParam = url.searchParams.get("error");
-        const fail = (msg: string) => Response.redirect(`/?error=${encodeURIComponent(msg)}`, 302);
+        const fail = (msg: string) =>
+          Response.redirect(`${origin}/?error=${encodeURIComponent(msg)}`, 302);
 
         if (errorParam) return fail(errorParam);
         if (!code || !state) return fail("Missing code or state");
@@ -37,7 +39,6 @@ export const Route = createFileRoute("/api/auth/google/callback")({
         const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
         if (!clientId || !clientSecret) return fail("OAuth not configured");
 
-        const origin = process.env.BETTER_AUTH_URL ?? `${url.protocol}//${url.host}`;
         const redirectUri = `${origin}/api/auth/google/callback`;
 
         const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
