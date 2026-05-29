@@ -4,4 +4,6 @@ node_modules
 .turbo
 data
 .env
+.env.*
+.kamal/secrets
 .DS_Store
