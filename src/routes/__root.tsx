@@ -10,9 +10,13 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#f5f1e8" },
       { title: "Castelo" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "stylesheet", href: appCss },
+    ],
   }),
   beforeLoad: async () => {
     const session = await getSession();
