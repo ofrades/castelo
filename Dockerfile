@@ -20,6 +20,7 @@ RUN groupadd --system --gid 1001 castelo && \
     useradd --system --uid 1001 --gid 1001 --create-home castelo
 
 COPY --from=builder --chown=castelo:castelo /app/.output ./.output
+COPY --from=builder --chown=castelo:castelo ["/app/Familia Romana Cap I.pdf", "./Familia Romana Cap I.pdf"]
 
 RUN mkdir -p /app/data && chown -R castelo:castelo /app
 
