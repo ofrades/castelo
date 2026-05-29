@@ -11,7 +11,7 @@ image: ofrades/castelo
 servers:
   web:
     hosts:
-      - mohshoo.tailf9eafe.ts.net
+      - mohshoo
     options:
       volume:
         - /var/lib/castelo/data:/app/data
