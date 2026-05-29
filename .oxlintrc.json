@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [".git", ".output", "node_modules", "data", "public/pdfjs"],
+  "plugins": ["eslint", "oxc", "react", "unicorn", "typescript"],
+  "rules": {
+    "react-in-jsx-scope": "off"
+  }
+}

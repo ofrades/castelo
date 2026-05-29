@@ -1,0 +1,7 @@
+node_modules
+.output
+.tanstack
+.turbo
+data
+.env
+.DS_Store
