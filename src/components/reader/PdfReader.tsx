@@ -227,7 +227,7 @@ export function PdfReader({
     <div ref={containerRef} className="flex min-h-full flex-col">
       <div
         data-pdf-toolbar="true"
-        className="quiet-edge sticky top-0 z-30 flex min-h-13 items-center justify-between gap-3 bg-background/90 px-5 py-2 backdrop-blur"
+        className="app-header sticky top-0 z-30 flex min-h-13 items-center justify-between gap-3 px-4 py-2 sm:px-5"
       >
         <form
           onSubmit={submitPageJump}
@@ -249,7 +249,7 @@ export function PdfReader({
             value={pageInput}
             inputMode="numeric"
             aria-label="Current page"
-            className="h-7 w-12 border-border/70 bg-card px-2 text-center text-xs shadow-none"
+            className="h-7 w-12 border-[var(--border-soft)] bg-card px-2 text-center text-xs shadow-none"
             disabled={!pageCount}
             onChange={(event) => setPageInput(event.target.value)}
             onBlur={() => setPageInput(String(currentPage))}
@@ -312,7 +312,7 @@ export function PdfReader({
           Preparing reader
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-10 px-6 py-10">
+        <div className="flex flex-col items-center gap-10 bg-[color-mix(in_oklch,var(--background)_96%,var(--foreground)_4%)] px-6 py-10">
           {pages.map((pageNumber) => (
             <PdfPage
               key={pageNumber}
@@ -423,7 +423,7 @@ function PdfPage({
         {pageNumber}
       </div>
       <div
-        className="reader-page relative overflow-hidden rounded-sm bg-[oklch(0.99_0.004_84)] shadow-[0_18px_70px_oklch(0.24_0.01_72_/_0.08)]"
+        className="reader-page relative overflow-hidden rounded-md bg-card"
         data-reader-page="true"
         data-page-number={pageNumber}
         style={pageStyle}

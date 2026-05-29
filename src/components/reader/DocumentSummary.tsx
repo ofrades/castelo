@@ -117,12 +117,15 @@ export function DocumentSummary({ document, markdown }: { document: Document; ma
 
   if (!assistantMessage && !generating) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 p-10 text-center">
-        <Sparkles className="size-8 text-muted-foreground/35" />
+      <div className="flex min-h-80 flex-col items-center justify-center gap-4 p-10 text-center">
+        <Sparkles className="size-7 text-muted-foreground/35" />
         <div>
           <p className="font-medium">Summa nulla</p>
+          <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+            Generate a concise guide when you need one.
+          </p>
         </div>
-        <Button onClick={generateSummary} disabled={generating}>
+        <Button onClick={generateSummary} disabled={generating} variant="outline">
           <Sparkles className="size-4" />
           Summam creare
         </Button>
@@ -132,7 +135,7 @@ export function DocumentSummary({ document, markdown }: { document: Document; ma
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-8 py-12">
+    <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-12">
       <div className="mb-10 flex items-center justify-between">
         <h2 className="text-lg font-semibold">Summa</h2>
         <Button variant="outline" size="sm" onClick={generateSummary} disabled={generating}>
@@ -153,7 +156,7 @@ export function DocumentSummary({ document, markdown }: { document: Document; ma
       ) : null}
 
       {displayText ? (
-        <article className="reader-prose">
+        <article className="reader-prose rounded-xl border border-[var(--border-soft)] bg-card/55 px-6 py-5 sm:px-8 sm:py-7">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{displayText}</ReactMarkdown>
         </article>
       ) : null}

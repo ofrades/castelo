@@ -1,4 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Button } from "#/components/ui/button";
+import { PageFrame } from "#/components/ui/app-shell";
 import { ReaderShell } from "#/components/reader/ReaderShell";
 import { getReaderDocument } from "#/server/documents";
 
@@ -10,17 +12,17 @@ export const Route = createFileRoute("/documents/$documentId")({
   },
   component: DocumentPage,
   notFoundComponent: () => (
-    <main className="flex min-h-screen items-center justify-center bg-background px-6">
-      <div className="rounded-xl border border-border bg-card p-6 text-center shadow-sm">
-        <h1 className="text-lg font-semibold">Document not found</h1>
+    <PageFrame className="flex items-center justify-center px-6">
+      <div className="quiet-panel max-w-md p-6 text-center">
+        <h1 className="text-lg font-semibold tracking-tight">Document not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           It may have been removed or belongs to another workspace.
         </p>
-        <a href="/dashboard" className="mt-4 inline-flex text-sm font-medium text-primary">
-          Back to library
-        </a>
+        <Button asChild className="mt-5" variant="outline">
+          <a href="/dashboard">Back to library</a>
+        </Button>
       </div>
-    </main>
+    </PageFrame>
   ),
 });
 

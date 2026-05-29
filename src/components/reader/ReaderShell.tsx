@@ -195,7 +195,7 @@ export function ReaderShell({
       <button
         type="button"
         onClick={() => setActiveTab(tab)}
-        className={`px-2 py-1 text-xs font-medium transition-colors ${activeTab === tab ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${activeTab === tab ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
       >
         {label}
       </button>
@@ -205,7 +205,7 @@ export function ReaderShell({
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
-      <header className="quiet-edge flex h-12 shrink-0 items-center justify-between bg-background/90 px-5 backdrop-blur">
+      <header className="app-header flex h-12 shrink-0 items-center justify-between px-4 sm:px-5">
         <div className="flex items-center gap-3">
           <a
             href="/dashboard"
@@ -214,16 +214,18 @@ export function ReaderShell({
             <ArrowLeft className="size-4" />
             <span className="hidden sm:inline">Bibliotheca</span>
           </a>
-          <span className="max-w-[200px] truncate text-sm font-medium sm:max-w-xs">{title}</span>
+          <span className="max-w-[200px] truncate text-sm font-semibold tracking-tight sm:max-w-xs">
+            {title}
+          </span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="rounded-full border border-[var(--border-soft)] bg-card/55 p-0.5">
           <TabButton tab="read" label="Legere" />
           <TabButton tab="summary" label="Summa" />
         </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        <aside className="quiet-edge hidden w-[240px] shrink-0 flex-col overflow-y-auto px-5 py-6 xl:flex">
+        <aside className="hidden w-[240px] shrink-0 flex-col overflow-y-auto border-r border-[var(--border-soft)] bg-sidebar/55 px-5 py-6 xl:flex">
           <div className="space-y-3">
             <h1 className="break-words text-lg font-semibold leading-tight tracking-tight">
               {title}
@@ -276,7 +278,7 @@ export function ReaderShell({
                   activeAnnotationId={activeAnnotationId}
                 />
               ) : (
-                <div className="m-8 rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
+                <div className="quiet-panel m-8 p-6 text-sm text-muted-foreground">
                   This document type is stored, but the reader does not support it yet.
                 </div>
               )}
@@ -286,15 +288,15 @@ export function ReaderShell({
           )}
         </main>
 
-        <aside className="quiet-edge hidden w-[300px] shrink-0 flex-col overflow-hidden bg-background/55 lg:flex">
-          <div className="flex-1 overflow-y-auto p-2.5">
+        <aside className="hidden w-[300px] shrink-0 flex-col overflow-hidden border-l border-[var(--border-soft)] bg-sidebar/55 lg:flex">
+          <div className="flex-1 overflow-y-auto p-3">
             {pendingSelection ? (
               <div className="quiet-panel mb-3 p-3">
                 <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
                   <Plus className="size-3" />
                   Nova
                 </div>
-                <blockquote className="mb-2 max-h-20 overflow-auto rounded-md bg-background/75 p-1.5 text-xs leading-relaxed">
+                <blockquote className="mb-2 max-h-20 overflow-auto rounded-md bg-background/80 p-2 text-xs leading-relaxed text-muted-foreground">
                   {pendingSelection.exact}
                 </blockquote>
                 <div className="mb-2 grid grid-cols-3 gap-1">
@@ -302,7 +304,7 @@ export function ReaderShell({
                     <button
                       key={value}
                       type="button"
-                      className={`rounded-full border px-2 py-0.5 text-[11px] capitalize transition-colors ${kind === value ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background text-muted-foreground hover:text-foreground"}`}
+                      className={`rounded-full border px-2 py-0.5 text-[11px] capitalize transition-colors ${kind === value ? "border-primary bg-primary text-primary-foreground" : "border-[var(--border-soft)] bg-background text-muted-foreground hover:text-foreground"}`}
                       onClick={() => setKind(value)}
                     >
                       {value}
@@ -337,7 +339,7 @@ export function ReaderShell({
             ) : null}
 
             {annotations.length === 0 && !pendingSelection ? (
-              <div className="rounded-lg border border-dashed border-border p-3 text-xs leading-relaxed text-muted-foreground">
+              <div className="quiet-panel p-3 text-xs leading-relaxed text-muted-foreground">
                 Elige verba.
               </div>
             ) : (
@@ -361,7 +363,7 @@ export function ReaderShell({
 
       {reviewOpen ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-background">
-          <header className="quiet-edge flex h-12 shrink-0 items-center justify-between bg-background/90 px-5 backdrop-blur">
+          <header className="app-header flex h-12 shrink-0 items-center justify-between px-4 sm:px-5">
             <div className="flex items-center gap-2">
               <Lock className="size-4" />
               <div>

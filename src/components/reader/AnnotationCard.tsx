@@ -109,9 +109,7 @@ export function AnnotationCard({
   const displayText = streamedText || assistantMessage?.content || "";
 
   return (
-    <div
-      className={`border-b border-border py-3 transition-colors ${active ? "text-primary" : "hover:text-foreground"}`}
-    >
+    <div className={`py-3 transition-colors ${active ? "text-primary" : "hover:text-foreground"}`}>
       <div className="flex items-start gap-2">
         <button type="button" className="min-w-0 flex-1 text-left" onClick={onFocus}>
           <p className="line-clamp-4 text-xs leading-relaxed">{annotationPreview(annotation)}</p>

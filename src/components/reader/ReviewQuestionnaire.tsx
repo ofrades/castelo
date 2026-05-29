@@ -235,7 +235,7 @@ export function ReviewQuestionnaire({
   );
 
   return (
-    <div className="mx-auto flex min-h-full max-w-3xl flex-col px-8 py-10">
+    <div className="mx-auto flex min-h-full max-w-3xl flex-col px-5 py-8 sm:px-8 sm:py-10">
       <div className="flex items-center justify-between text-xs font-medium text-muted-foreground">
         <button
           type="button"
@@ -273,7 +273,7 @@ export function ReviewQuestionnaire({
 
       {error ? <p className="mt-10 text-center text-sm text-destructive">{error}</p> : null}
 
-      <div className="flex flex-1 items-center justify-center py-16">
+      <div className="flex flex-1 items-center justify-center py-12 sm:py-16">
         {!pageQuestions.length ? (
           <section className="max-w-xl text-center">
             <p className="text-3xl font-semibold tracking-tight">Pagina {activePage}</p>
@@ -295,12 +295,12 @@ export function ReviewQuestionnaire({
             </Button>
           </section>
         ) : currentQuestion ? (
-          <section className="w-full max-w-xl">
-            <div className="mb-24 text-center text-[11px] font-medium text-muted-foreground">
+          <section className="quiet-panel w-full max-w-xl p-6 sm:p-8">
+            <div className="mb-16 text-center text-[11px] font-medium text-muted-foreground sm:mb-20">
               {correctQuestions.length}/{requiredCorrect} · {questionIndex + 1}/
               {dueQuestions.length}
             </div>
-            <h2 className="text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.04em]">
+            <h2 className="text-balance text-3xl font-semibold leading-[1.08] tracking-[-0.035em] sm:text-4xl">
               {currentQuestion.question}
             </h2>
             {currentQuestion.sourceHint ? (
@@ -312,7 +312,7 @@ export function ReviewQuestionnaire({
               value={answer}
               onChange={(event) => setAnswer(event.target.value)}
               placeholder="Responsum"
-              className="mt-12 min-h-24 resize-none border-x-0 border-t-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0"
+              className="mt-10 min-h-24 resize-none border-x-0 border-t-0 bg-transparent px-0 text-base shadow-none focus-visible:ring-0 sm:text-lg"
             />
             {feedback ? (
               <p className="mt-8 text-sm leading-7 text-muted-foreground">{feedback}</p>

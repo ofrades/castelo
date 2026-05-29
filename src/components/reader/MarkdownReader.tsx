@@ -13,9 +13,9 @@ export function MarkdownReader({
   activeAnnotationId: string | null;
 }) {
   return (
-    <div className="flex justify-center px-6 py-14">
+    <div className="flex justify-center px-4 py-10 sm:px-6 sm:py-14">
       <article
-        className="reader-page quiet-panel relative w-full max-w-3xl px-10 py-9"
+        className="reader-page relative w-full max-w-3xl rounded-xl bg-card/70 px-6 py-8 sm:px-10 sm:py-9"
         data-reader-page="true"
         data-page-number="1"
       >

@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
-  BookMarked,
   CreditCard,
   FilePlus2,
   FileText,
@@ -12,8 +11,10 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import { AppHeader, PageFrame } from "#/components/ui/app-shell";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
+import { Input } from "#/components/ui/input";
 import { readableDocumentTitle } from "#/lib/document-title";
 import { deleteDocument, getDocuments } from "#/server/documents";
 import type { Document } from "#/lib/schema";
@@ -101,11 +102,11 @@ function DashboardPage() {
 
   if (!session) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-background px-6">
-        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 text-center shadow-sm">
-          <BookMarked className="mx-auto mb-4 size-8 text-primary" />
-          <h1 className="text-xl font-semibold">Accede ad bibliothecam</h1>
-          <div className="mt-5 flex justify-center gap-2">
+      <PageFrame className="flex items-center justify-center px-6">
+        <div className="quiet-panel w-full max-w-md p-6 text-center">
+          <h1 className="text-xl font-semibold tracking-tight">Accede ad bibliothecam</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Sign in to open your library.</p>
+          <div className="mt-6 flex justify-center gap-2">
             <Button asChild>
               <a href="/api/auth/google/start">Google</a>
             </Button>
@@ -116,30 +117,24 @@ function DashboardPage() {
             </form>
           </div>
         </div>
-      </main>
+      </PageFrame>
     );
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <header className="quiet-edge bg-background/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-          <a href="/" className="flex items-center gap-2 text-sm font-semibold">
-            <BookMarked className="size-4" />
-            Castelo
-          </a>
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            <Badge variant="outline">{formatEuro(balance)}</Badge>
-            <span className="hidden sm:inline">{session.email}</span>
-            <form action="/api/auth/signout" method="post">
-              <Button size="sm" variant="ghost" type="submit">
-                <LogOut className="size-4" />
-                Exire
-              </Button>
-            </form>
-          </div>
+    <PageFrame>
+      <AppHeader>
+        <div className="flex items-center gap-3 text-sm text-muted-foreground">
+          <Badge>{formatEuro(balance)}</Badge>
+          <span className="hidden sm:inline">{session.email}</span>
+          <form action="/api/auth/signout" method="post">
+            <Button size="sm" variant="ghost" type="submit">
+              <LogOut className="size-4" />
+              Exire
+            </Button>
+          </form>
         </div>
-      </header>
+      </AppHeader>
 
       {showTopupNotice ? (
         <div className="quiet-panel fixed right-4 top-16 z-50 flex max-w-xs items-start gap-3 rounded-xl p-4 text-sm shadow-lg">
@@ -161,15 +156,15 @@ function DashboardPage() {
         </div>
       ) : null}
 
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-12 lg:grid-cols-[320px_1fr]">
-        <section className="quiet-panel h-fit p-5">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:px-6 lg:grid-cols-[300px_1fr] lg:py-12">
+        <section className="quiet-panel h-fit p-5 sm:p-6">
           <div className="mb-5 flex items-center gap-2 text-sm font-semibold">
             <FilePlus2 className="size-4 text-primary" />
             Addere
           </div>
 
           <form onSubmit={upload} className="space-y-4">
-            <label className="quiet-edge block cursor-pointer py-8 text-center transition-colors hover:text-primary">
+            <label className="quiet-edge block cursor-pointer rounded-xl border border-dashed px-4 py-8 text-center transition-colors hover:border-primary/30 hover:text-primary">
               <Upload className="mx-auto mb-2 size-5 text-muted-foreground" />
               <span className="block text-sm font-medium">Eligere</span>
               <span className="mt-1 block text-xs text-muted-foreground">{fileSummary}</span>
@@ -208,20 +203,20 @@ function DashboardPage() {
             </Button>
           </form>
 
-          <div className="mt-8 border-t border-border pt-6">
+          <div className="mt-8 border-t border-[var(--border-soft)] pt-6">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
               <CreditCard className="size-4 text-primary" />
               Stipendium
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">EUR</span>
-              <input
+              <Input
                 type="number"
                 min={1}
                 max={100}
                 value={topupAmount}
                 onChange={(event) => setTopupAmount(event.target.value)}
-                className="h-9 w-20 rounded-md border border-input bg-background px-2 text-sm"
+                className="w-20 bg-background"
               />
               <Button type="button" variant="ghost" onClick={() => void startCheckout()}>
                 Addere
@@ -243,8 +238,11 @@ function DashboardPage() {
 
           {documents.length === 0 ? (
             <div className="quiet-panel p-10 text-center">
-              <FileText className="mx-auto mb-3 size-8 text-muted-foreground/50" />
+              <FileText className="mx-auto mb-3 size-7 text-muted-foreground/45" />
               <p className="font-medium">Nulla documenta</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Add a PDF, Markdown, or text file to begin.
+              </p>
             </div>
           ) : (
             <div className="quiet-panel overflow-hidden">
@@ -261,7 +259,7 @@ function DashboardPage() {
           )}
         </section>
       </div>
-    </main>
+    </PageFrame>
   );
 }
 
@@ -290,7 +288,7 @@ function DocumentRow({
   }
 
   return (
-    <div className="group flex items-center justify-between gap-4 border-b border-border/70 px-4 py-5 transition-colors last:border-b-0 hover:bg-accent/20">
+    <div className="group flex items-center justify-between gap-4 border-b border-[var(--border-soft)] px-4 py-4 transition-colors last:border-b-0 hover:bg-accent/35 sm:px-5">
       <a href={`/documents/${document.id}`} className="min-w-0 flex-1">
         <div className="truncate font-medium">{readableDocumentTitle(document.title)}</div>
         <div className="mt-1 text-sm text-muted-foreground">
