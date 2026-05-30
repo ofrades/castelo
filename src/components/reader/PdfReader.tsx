@@ -52,7 +52,6 @@ export function PdfReader({
   activeAnnotationId,
   maxAllowedPage,
   onCurrentPageChange,
-  onBlockedPageAttempt,
   onPageRead,
   onPageText,
 }: {
@@ -61,7 +60,6 @@ export function PdfReader({
   activeAnnotationId: string | null;
   maxAllowedPage?: number;
   onCurrentPageChange?: (page: number) => void;
-  onBlockedPageAttempt?: (page: number) => void;
   onPageRead?: (page: number) => void;
   onPageText?: (page: number, text: string) => void;
 }) {
@@ -203,12 +201,6 @@ export function PdfReader({
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
         const nextPage = measureCurrentPage();
-        const allowedPage = maxAllowedPage ?? pageCount;
-        if (nextPage > allowedPage) {
-          onBlockedPageAttempt?.(nextPage);
-          jumpToPage(allowedPage);
-          return;
-        }
         setCurrentPage((value) => (value === nextPage ? value : nextPage));
       });
     };
@@ -221,7 +213,7 @@ export function PdfReader({
       scrollRoot.removeEventListener("scroll", updateCurrentPage);
       window.removeEventListener("resize", updateCurrentPage);
     };
-  }, [jumpToPage, maxAllowedPage, measureCurrentPage, onBlockedPageAttempt, pageCount, scale]);
+  }, [measureCurrentPage, pageCount, scale]);
 
   return (
     <div ref={containerRef} className="flex min-h-full flex-col">

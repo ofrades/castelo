@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { eq } from "drizzle-orm";
 import { getSessionFromRequest } from "#/lib/session";
 import { createDocumentFromUpload } from "#/lib/document-service";
 import { guessDocumentKind } from "#/lib/storage";
+import { MIN_WALLET_BALANCE_CENTS } from "#/lib/ai-config";
 
 const MAX_UPLOAD_FILE_COUNT = 12;
 const MAX_UPLOAD_SINGLE_FILE_BYTES = 50 * 1024 * 1024;
@@ -65,6 +67,21 @@ export const Route = createFileRoute("/api/documents/upload")({
         const session = await getSessionFromRequest(request);
         if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
+        const { getDb } = await import("#/lib/db");
+        const { user } = await import("#/lib/schema");
+        const db = await getDb();
+
+        const [u] = await db
+          .select({ walletBalance: user.walletBalance })
+          .from(user)
+          .where(eq(user.id, session.sub))
+          .limit(1);
+
+        const isAdmin = session.email === "mig.silva@gmail.com";
+        if (!isAdmin && (u?.walletBalance ?? 0) < MIN_WALLET_BALANCE_CENTS) {
+          return Response.json({ error: "INSUFFICIENT_FUNDS" }, { status: 402 });
+        }
+
         const envelopeError = validateUploadEnvelope(request);
         if (envelopeError) return Response.json({ error: envelopeError }, { status: 413 });
 
@@ -78,9 +95,6 @@ export const Route = createFileRoute("/api/documents/upload")({
         const title =
           typeof formData.get("title") === "string" ? String(formData.get("title")) : null;
         const buffered = await bufferUploadedFiles(files);
-        const { getDb } = await import("#/lib/db");
-        const { user } = await import("#/lib/schema");
-        const db = await getDb();
         await db
           .insert(user)
           .values({

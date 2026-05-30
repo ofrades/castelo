@@ -267,7 +267,6 @@ export function ReaderShell({
                   activeAnnotationId={activeAnnotationId}
                   maxAllowedPage={unlockedPage}
                   onCurrentPageChange={setCurrentPage}
-                  onBlockedPageAttempt={() => setReviewOpen(true)}
                   onPageRead={markPageRead}
                   onPageText={rememberPageText}
                 />

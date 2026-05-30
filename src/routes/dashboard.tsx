@@ -84,6 +84,9 @@ function DashboardPage() {
         document?: { documentId: string };
         error?: string;
       };
+      if (response.status === 402 || payload?.error === "INSUFFICIENT_FUNDS") {
+        throw new Error("Your wallet balance is too low. Please top up before uploading.");
+      }
       if (!response.ok || !payload?.document) {
         throw new Error(payload?.error || "Upload failed");
       }
